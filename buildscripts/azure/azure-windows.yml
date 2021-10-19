@@ -11,7 +11,7 @@ jobs:
     matrix:
       py39:
         PYTHON: '3.9'
-        CONDA_ENV: travisci
+        CONDA_ENV: cienv
 
 
   steps:
@@ -28,7 +28,7 @@ jobs:
         call conda remove --all -q -y -n %CONDA_ENV%
         call conda create -n %CONDA_ENV% -q -y python=%PYTHON% cmake
         call activate %CONDA_ENV%
-        call conda install -y -q -c numba llvmdev="10.0*"
+        call conda install -y -q -c numba llvmdev="11.*"
       displayName: 'Before Install'
 
     - script: |
