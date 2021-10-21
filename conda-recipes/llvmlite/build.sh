@@ -29,6 +29,13 @@ DARWIN_TARGET=x86_64-apple-darwin13.4.0
 export PYTHONNOUSERSITE=1
 # Enables static linking of stdlibc++
 export LLVMLITE_CXX_STATIC_LINK=1
+export LLVMLITE_SKIP_LLVM_VERSION_CHECK=1
+config=/home/taanders/github/Python-for-HPC/PyOMP/llvm-project-install/bin/llvm-config
 
-$PYTHON setup.py build --force
-$PYTHON setup.py install
+export LLVM_CONFIG=$config
+export CC=gcc-9
+export CXX=g++-9
+
+
+EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" LDFLAGS=-fPIC LLVM_CONFIG=$config $PYTHON setup.py build --force
+EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" LLVM_CONFIG=$config $PYTHON setup.py install

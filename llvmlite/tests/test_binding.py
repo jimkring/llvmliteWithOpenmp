@@ -282,7 +282,7 @@ class TestDependencies(BaseTest):
             self.fail("failed parsing dependencies? got %r" % (deps,))
         # Ensure all dependencies are expected
         allowed = set(['librt', 'libdl', 'libpthread', 'libz', 'libm',
-                       'libgcc_s', 'libc', 'ld-linux', 'ld64'])
+                       'libgcc_s', 'libc', 'ld-linux', 'ld64', 'libtinfo'])
         if platform.python_implementation() == 'PyPy':
             allowed.add('libtinfo')
 
@@ -398,7 +398,7 @@ class TestMisc(BaseTest):
     def test_version(self):
         major, minor, patch = llvm.llvm_version_info
         # one of these can be valid
-        valid = [(11,)]
+        valid = [(11,), (13,)]
         self.assertIn((major,), valid)
         self.assertIn(patch, range(10))
 
