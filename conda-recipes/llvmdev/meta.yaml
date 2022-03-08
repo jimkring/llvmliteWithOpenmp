@@ -1,32 +1,13 @@
-{% set shortversion = "11.1" %}
-{% set version = "11.1.0" %}
-{% set sha256_llvm = "ce8508e318a01a63d4e8b3090ab2ded3c598a50258cc49e2625b9120d4c03ea5" %}
-{% set sha256_lld = "017a788cbe1ecc4a949abf10755870519086d058a2e99f438829aef24f0c66ce" %}
-{% set build_number = "3" %}
+{% set shortversion = "14.1_pyomp" %}
+{% set version = "14.1.0_pyomp" %}
+{% set build_number = "0" %}
 
 package:
   name: llvmdev
   version: {{ version }}
 
 source:
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/llvm-{{ version }}.src.tar.xz
-    fn: llvm-{{ version }}.src.tar.xz
-    sha256: {{ sha256_llvm }}
-    patches:
-    - ../partial-testing.patch
-    # Intel SVML optimizations (two patches)
-    - ../intel-D47188-svml-VF.patch
-    # Second patch from https://github.com/conda-forge/llvmdev-feedstock/blob/c706309/recipe/patches/expect-fastmath-entrypoints-in-add-TLI-mappings.ll.patch
-    - ../expect-fastmath-entrypoints-in-add-TLI-mappings.ll.patch
-    # Reverts a patch limiting non-GlobalValue name length
-    - ../0001-Revert-Limit-size-of-non-GlobalValue-name.patch
-    # Fixes for aarch64 on LLVM 11 from https://reviews.llvm.org/D104123
-    - ../llvm_11_consecutive_registers.patch
-
-  - url: https://github.com/llvm/llvm-project/releases/download/llvmorg-{{ version }}/lld-{{ version }}.src.tar.xz
-    fn: lld-{{ version }}.src.tar.xz
-    sha256: {{ sha256_lld }}
-    folder: tools/lld
+  git_url: https://github.com/ggeorgakoudis/llvm-project.git
 
 build:
   number: {{ build_number }}

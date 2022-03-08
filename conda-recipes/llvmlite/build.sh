@@ -30,12 +30,12 @@ export PYTHONNOUSERSITE=1
 # Enables static linking of stdlibc++
 export LLVMLITE_CXX_STATIC_LINK=1
 export LLVMLITE_SKIP_LLVM_VERSION_CHECK=1
-config=/home/taanders/github/Python-for-HPC/PyOMP/llvm-project-install/bin/llvm-config
 
-export LLVM_CONFIG=$config
-export CC=gcc-9
-export CXX=g++-9
+#EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" LDFLAGS=-fPIC LLVM_CONFIG=$config $PYTHON setup.py build --force
+#EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" LLVM_CONFIG=$config $PYTHON setup.py install
 
+#EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" LDFLAGS=-fPIC $PYTHON setup.py build --force
+#EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" $PYTHON setup.py install
 
-EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" LDFLAGS=-fPIC LLVM_CONFIG=$config $PYTHON setup.py build --force
-EXTRA_LLVM_LIBS="-L /opt/intel/intelpython3/lib -fno-lto" LLVM_CONFIG=$config $PYTHON setup.py install
+$PYTHON setup.py build --force
+$PYTHON setup.py install
