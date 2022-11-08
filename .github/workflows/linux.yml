@@ -1,4 +1,4 @@
-name: Build Windows
+name: Build Linux
 
 on:
  push:
@@ -13,32 +13,13 @@ jobs:
 
     env:
       PYTHON: '3.9'
-      CONDA_ENV: 'cienv
-      GITHUB_WORKSPACE: '${{ github.workspace }}'
+      CONDA_ENV: 'cienv'
       RUN_FLAKE8: 'no'
+      WHEEL: 'yes'
 
     steps:
 
       - uses: actions/checkout@v3
-      - name: Cache conda
-        uses: actions/cache@v3
-        env:
-          # Increase this value to reset cache if etc/example-environment.yml has not changed
-          CACHE_NUMBER: 0
-        with:
-          path: ~/conda_pkgs_dir
-          key:
-            ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}
-
-            # ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{
-            # hashFiles('etc/example-environment.yml') }}
-
-#       - name: Install miniconda
-#         uses: conda-incubator/setup-miniconda@v2
-#         with:
-#           miniconda-version: "latest"
-#           python-version: "3.9"
-#           activate-environment: cienv
 
       - name: Before Install
         run: |
@@ -48,17 +29,20 @@ jobs:
           export PATH=$HOME/miniconda3/bin:$PATH
           echo "Setting up Conda environment"
           buildscripts/incremental/setup_conda_environment.sh
+
       - name: Build
         run: |
           export PATH=$HOME/miniconda3/bin:$PATH
           buildscripts/incremental/build.sh
-      - name: Flake8
-        run: |
-          export PATH=$HOME/miniconda3/bin:$PATH
-          conda install -y flake8
-          echo "Running flake8 check"
-          flake8 llvmlite
-        if: $RUN_FLAKE8 == 'yes'
+          
+      # - name: Flake8
+      #   run: |
+      #     export PATH=$HOME/miniconda3/bin:$PATH
+      #     conda install -y flake8
+      #     echo "Running flake8 check"
+      #     flake8 llvmlite
+      #   if: $RUN_FLAKE8 == 'yes'
+
       - name: Test
         run: |
           export PATH=$HOME/miniconda3/bin:$PATH
