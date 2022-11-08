@@ -38,11 +38,11 @@ jobs:
         shell: cmd
         run: |
           call C:\Miniconda3\Scripts\activate.bat
-          call buildscripts\\incremental\\build.cmd
+          call .\buildscripts\incremental\build.cmd
 
       - name: Test
         shell: cmd
         run: |
           call C:\Miniconda3\Scripts\activate.bat
-          call buildscripts\\incremental\\test.cmd
+          call .\buildscripts\incremental\test.cmd
 
