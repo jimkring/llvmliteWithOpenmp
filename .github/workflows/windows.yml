@@ -17,35 +17,31 @@ jobs:
       GITHUB_WORKSPACE: ${{ github.workspace }}
 
     steps:
-
       - name: Install miniconda
-        shell: powershell
-        run: |
-          $wc = New-Object net.webclient
-          $wc.Downloadfile("https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe", "Miniconda3-latest-Windows-x86_64.exe")
-          Start-Process "Miniconda3-latest-Windows-x86_64.exe" "/S /D=C:\Miniconda3" -Wait
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniconda-version: "latest"
+          python-version: "3.9"
+          activate-environment: cienv
 
-      - name: Before Install
+      # - name: Install miniconda
+      #   shell: powershell
+      #   run: |
+      #     $wc = New-Object net.webclient
+      #     $wc.Downloadfile("https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe", "Miniconda3-latest-Windows-x86_64.exe")
+      #     Start-Process "Miniconda3-latest-Windows-x86_64.exe" "/S /D=C:\Miniconda3" -Wait
+
+      - name: Install
         shell: cmd
         run: |
-          call C:\Miniconda3\Scripts\activate.bat
-          call conda list
-          call conda remove --all -q -y -n %CONDA_ENV%
-          call conda create -n %CONDA_ENV% -q -y python=%PYTHON% cmake
-          call activate %CONDA_ENV%
           call conda install -y -q -c numba llvmdev="11.*"
 
       - name: Build
         shell: cmd
         run: |
-          echo "Starting build"
-          echo "%GITHUB_WORKSPACE%\buildscripts\incremental\build.cmd"
-          call dir "%GITHUB_WORKSPACE%\buildscripts\incremental"
-          call C:\Miniconda3\Scripts\activate.bat
-          call %GITHUB_WORKSPACE%\buildscripts\incremental\build.cmd
+          call python %GITHUB_WORKSPACE%\setup.py build
 
       - name: Test
         shell: cmd
         run: |
-          call C:\Miniconda3\Scripts\activate.bat
-          call %GITHUB_WORKSPACE%\buildscripts\incremental\test.cmd
+          call python %GITHUB_WORKSPACE%\runtests.py -v
