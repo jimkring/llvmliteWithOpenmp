@@ -2,7 +2,9 @@ name: Build Linux
 
 on:
  push:
-   branches: [ main, op2_llvm12 ]
+  branches: [ main, op2_llvm12 ]
+  paths-ignore:
+    - '.github/workflows/windows.yml'
  workflow_dispatch:
 
 jobs:
