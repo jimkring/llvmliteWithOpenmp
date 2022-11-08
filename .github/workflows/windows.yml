@@ -33,18 +33,16 @@ jobs:
           call conda create -n %CONDA_ENV% -q -y python=%PYTHON% cmake
           call activate %CONDA_ENV%
           call conda install -y -q -c numba llvmdev="11.*"
-        displayName: 'Before Install'
 
       - name: Build
         shell: powershell
         run: |
           call C:\Miniconda3\Scripts\activate.bat
           call buildscripts\\incremental\\build.cmd
-        displayName: 'Build'
 
       - name: Test
         shell: powershell
         run: |
           call C:\Miniconda3\Scripts\activate.bat
           call buildscripts\\incremental\\test.cmd
-        displayName: 'Test'
+
