@@ -25,7 +25,7 @@ jobs:
           Start-Process "Miniconda3-latest-Windows-x86_64.exe" "/S /D=C:\Miniconda3" -Wait
 
       - name: Before Install
-        shell: powershell
+        shell: cmd
         run: |
           call C:\Miniconda3\Scripts\activate.bat
           call conda list
@@ -35,13 +35,13 @@ jobs:
           call conda install -y -q -c numba llvmdev="11.*"
 
       - name: Build
-        shell: powershell
+        shell: cmd
         run: |
           call C:\Miniconda3\Scripts\activate.bat
           call buildscripts\\incremental\\build.cmd
 
       - name: Test
-        shell: powershell
+        shell: cmd
         run: |
           call C:\Miniconda3\Scripts\activate.bat
           call buildscripts\\incremental\\test.cmd
